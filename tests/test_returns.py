@@ -52,3 +52,23 @@ def test_cumulative_returns():                                                  
     cumulative_growth = np.prod(1 + returns)
     expected_growth = prices.iloc[-1] / prices.iloc[0]
     np.testing.assert_allclose( cumulative_growth,expected_growth)
+    
+def test_multiple_assets():
+    prices = pd.DataFrame({"SPY": [100, 110, 99],"BND": [50, 49, 49.98],"GLD": [200, 204, 202]})
+    result = simple_returns(prices)
+    expected = np.array([[0.10, -0.02, 0.02],[-0.10, 0.02, 202/204 - 1]])
+    np.testing.assert_allclose(result.to_numpy(), expected)
+    assert result.shape == (2, 3)
+    assert result.columns.equals(prices.columns)
+    assert result.index.equals(prices.index[1:])
+    
+def test_multiple_assets_log_returns():                                                                 #Prueba anterior para Rendimientos Logarítmicos
+    prices = pd.DataFrame({"SPY": [100, 110, 99],"BND": [50, 49, 49.98],"GLD": [200, 204, 202]})
+    simple = simple_returns(prices)
+    logarithmic = log_returns(prices)
+    np.testing.assert_allclose(np.expm1(logarithmic),simple)
+    
+def test_missing_asset_price():                                                                         #Prueba a datos faltantes
+    prices = pd.DataFrame({"SPY": [100, 110, 99],"BND": [50, np.nan, 49.98],"GLD": [200, 204, 202]})
+    with pytest.raises(ValueError):
+        simple_returns(prices)
