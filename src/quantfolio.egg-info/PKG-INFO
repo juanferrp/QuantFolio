@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: quantfolio
+Version: 0.1.0
+Summary: Quantitative portfolio optimization and machine learning framework
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=2.0
+Requires-Dist: pandas>=2.2
+Requires-Dist: scipy>=1.14
+Requires-Dist: matplotlib>=3.9
+Requires-Dist: yfinance>=0.2
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
